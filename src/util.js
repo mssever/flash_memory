@@ -24,3 +24,8 @@ export class MyArray extends Array {
     return out;
   }
 }
+
+export function flipCard(id) {
+  let card = document.querySelector(`#card-top-${id}`);
+  card.classList.toggle('card-clicked');
+}
