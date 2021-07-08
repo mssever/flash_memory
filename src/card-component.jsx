@@ -6,10 +6,8 @@ export default class CardComponent extends Component {
         return (
             <div className="card" id={`card-${card.id}`}>
                 <div className="card-top" id={`card-top-${card.id}`}></div>
-                <div className="card-base" pairswith={card.pairsWith}>
-                    <svg viewBox="0 0 56 18">
-                        <text x="0" y="15">{card.label}</text>
-                    </svg>
+                <div className="card-base" id={`card-base-${card.id}`}>
+                    <span>{card.label}</span>
                 </div>
             </div>
         );

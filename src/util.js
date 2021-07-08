@@ -10,7 +10,7 @@ export class Card {
 //taken and modified from https://javascript.info/task/shuffle
 export class MyArray extends Array {
   shuffle() {
-    let out = [...this];
+    let out = new MyArray(...this);
     for (let i = out.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
 
