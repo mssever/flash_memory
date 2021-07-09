@@ -13,6 +13,22 @@ main {
   justify-content: flex-start;
 }
 
+header {
+  background-color: $dark;
+  color: $light;
+  padding: 0.2rem 0 0 0.5rem;
+}
+
+#score {
+  position: fixed;
+  top: 1rem;
+  right: 0;
+  background-color: $light;
+  padding: 1rem;
+  border-radius: 2rem 0 0 2rem;
+  z-index: 5;
+}
+
 #game {
   /*display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -26,6 +42,7 @@ main {
   flex-wrap: wrap;
   flex-grow: 1;
   padding: 0.5rem;
+  background-color: #999;
 
   .card {
     display: flex;
@@ -42,6 +59,8 @@ main {
 
   .card-top {
     background-color: $blue;
+    // background-size: contain;
+    // background-repeat: no-repeat;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -80,13 +99,13 @@ main {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.8);
   z-index: 10;
 
   .container {
-    background-color: $green;
-    border: solid 0.25rem $orange;
-    color: white;
+    background-color: $blue;
+    border: solid 0.25rem darken($blue, 20%);
+    color: $light;
     font-weight: bold;
     font-size: 3rem;
     display: flex;

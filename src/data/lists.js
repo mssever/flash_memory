@@ -8,9 +8,9 @@ export const korean_numbers = [
   ['칠','seven'],
   ['팔', 'eight'],
   ['구', 'nine'],
-  ['십', 'ten'],
+  ['십', 'ten'],/*
   ['백', 'one hundred'],
   ['천', 'one thousand'],
   ['만', 'ten thousand'],
-  ['억', 'one hundred million']
+  ['억', 'one hundred million']*/
 ]

@@ -127,31 +127,33 @@ export default class App extends Component {
       }
     }
   }
-/* <style dangerouslySetInnerHTML={{__html: `
-      .card-solved { backgroundImage: {this.state.bgcorrect} }
-    `}} /> */
+
   render() {
     return (
       <main>
         <style>
-          #game {'{'}
-            background-image: {this.state.bgtable};
-          {'}'}
+          {`
+            #game {
+              background-image: ${this.state.bgtable};
+            }
 
-          .card-top {'{'}
-            background-image: {this.state.bgback};
-          {'}'}
+            .card-top, .container {
+              background-image: ${this.state.bgback};
+            }
 
-          .card-base {'{'}
-            background-image: {this.state.bgfront};
-          {'}'}
+            .card-base {
+              background-image: ${this.state.bgfront};
+            }
 
-          .card-solved, .container {'{'}
-            background-image: {this.state.bgcorrect};
-          {'}'}
+            .card-solved {
+              background-image: ${this.state.bgcorrect};
+            }
+          `}
         </style>
-        <h1>Flash Memory</h1>
-        <p>Match the word with its meaning by turning over the matching cards.</p>
+        <header>
+          <h1>Flash Memory</h1>
+          <p>Match the word with its meaning by turning over the matching cards.</p>
+        </header>
         <p id="score">Score: {this.state.score}</p>
         <div id="game-over">{this.state.gameOver}</div>
         <section id="game">
@@ -174,26 +176,31 @@ export default class App extends Component {
   }
 
   generateBackgrounds() {
-    let bgcorrect, bgfront, bgback, bgtable;
-    function background(color, tiles=50, tileSize=7, borderWidth=3) {
+    function background(color, tileSize=7, borderWidth=3, tiles=15) {
       return `https://php-noise.com/noise.php?hex=${color}&tiles=${tiles}&tileSize=${tileSize}&borderWidth=${borderWidth}&json`;
     }
-    fetch(background('198754', 50, 7, 15)) // correct
-      .then(res => res.json())
+
+    function url(addr) {
+      return `url(${addr})`;
+    }
+
+    let bgcorrect, bgfront, bgback, bgtable;
+    fetch(background('198754', 7, 15)) // correct
+      .then(response => response.json())
       .then(data => {
-        bgcorrect = `url(${data.uri})`;
+        bgcorrect = url(data.uri);
         fetch(background('fd7e14')) // front
-          .then(res => res.json())
+          .then(response => response.json())
           .then(data => {
-            bgfront = `url(${data.uri})`;
-            fetch(background('0d6efd', 50, 15, 5)) // back
-              .then(res => res.json())
+            bgfront = url(data.uri);
+            fetch(background('0d6efd', 10)) // back
+              .then(response => response.json())
               .then(data => {
-                bgback = `url(${data.uri})`;
-                fetch(background('999999', 50, 10, 0)) // table
-                  .then(res => res.json())
+                bgback = url(data.uri);
+                fetch(background('999999', 10, 0, 50)) // table
+                  .then(response => response.json())
                   .then(data => {
-                    bgtable = `url(${data.uri})`;
+                    bgtable = url(data.uri);
                     this.setState({
                       bgcorrect,
                       bgfront,
