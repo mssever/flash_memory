@@ -35,6 +35,7 @@ export default class App extends Component {
     this.play = this.play.bind(this);
     this.gameOver = this.gameOver.bind(this);
     this.reset = this.reset.bind(this);
+    this.generateBackgrounds = this.generateBackgrounds.bind(this);
   }
   
   play() {
@@ -72,7 +73,7 @@ export default class App extends Component {
           <div className="modal-background">
             <div className="container">
               <p>Game over. Score: {this.getScore()}</p>
-              <button onClick={this.reset}>Restart</button>
+              <button className="btn btn-light" onClick={this.reset}>Restart</button>
             </div>
           </div>
         )
@@ -81,7 +82,6 @@ export default class App extends Component {
   }
 
   reset() {
-    //debugger
     this.score = 0;
     this.cardsClicked = [];
     this.lock = false;
@@ -100,7 +100,10 @@ export default class App extends Component {
   }
 
   getScore() {
-    return `${this.score}/${this.flat_list.length * 5}`;
+    let score = this.score;
+    let total = this.flat_list.length * 5;
+    let pct = Math.round((score / total) * 100);
+    return `${score}/${total} (${pct}%)`;
   }
 
   handleCardClick(event) {
@@ -124,10 +127,29 @@ export default class App extends Component {
       }
     }
   }
-
+/* <style dangerouslySetInnerHTML={{__html: `
+      .card-solved { backgroundImage: {this.state.bgcorrect} }
+    `}} /> */
   render() {
     return (
       <main>
+        <style>
+          #game {'{'}
+            background-image: {this.state.bgtable};
+          {'}'}
+
+          .card-top {'{'}
+            background-image: {this.state.bgback};
+          {'}'}
+
+          .card-base {'{'}
+            background-image: {this.state.bgfront};
+          {'}'}
+
+          .card-solved, .container {'{'}
+            background-image: {this.state.bgcorrect};
+          {'}'}
+        </style>
         <h1>Flash Memory</h1>
         <p>Match the word with its meaning by turning over the matching cards.</p>
         <p id="score">Score: {this.state.score}</p>
@@ -137,10 +159,50 @@ export default class App extends Component {
             this.state.cards.map(card => <CardComponent 
                                                 key={card.id}
                                                 card={card}
-                                                clickHandler={this.handleCardClick} />)
+                                                clickHandler={this.handleCardClick}
+                                                bgfront={this.state.bgfront}
+                                                bgback={this.state.bgback}
+                                               />)
           }
         </section>
       </main>
     );
+  }
+
+  componentDidMount() {
+    this.generateBackgrounds();
+  }
+
+  generateBackgrounds() {
+    let bgcorrect, bgfront, bgback, bgtable;
+    function background(color, tiles=50, tileSize=7, borderWidth=3) {
+      return `https://php-noise.com/noise.php?hex=${color}&tiles=${tiles}&tileSize=${tileSize}&borderWidth=${borderWidth}&json`;
+    }
+    fetch(background('198754', 50, 7, 15)) // correct
+      .then(res => res.json())
+      .then(data => {
+        bgcorrect = `url(${data.uri})`;
+        fetch(background('fd7e14')) // front
+          .then(res => res.json())
+          .then(data => {
+            bgfront = `url(${data.uri})`;
+            fetch(background('0d6efd', 50, 15, 5)) // back
+              .then(res => res.json())
+              .then(data => {
+                bgback = `url(${data.uri})`;
+                fetch(background('999999', 50, 10, 0)) // table
+                  .then(res => res.json())
+                  .then(data => {
+                    bgtable = `url(${data.uri})`;
+                    this.setState({
+                      bgcorrect,
+                      bgfront,
+                      bgback,
+                      bgtable
+                    });
+                  });
+              });
+          });
+      });
   }
 }

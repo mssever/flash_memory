@@ -2,22 +2,42 @@
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0
 }
+
+main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
 #game {
-  display: grid;
-  grid-template-columns: repeat(4, 0.8fr);
+  /*display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   //grid-auto-rows: minmax(100px, auto);
   grid-auto-rows: 50px;
+  //height: 100vh;*/
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  padding: 0.5rem;
 
   .card {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    //border: 1px solid black;
+    border: 1px solid black;
     position: relative;
     border-radius: 0;
+    min-width: calc(100% / 4);
+    min-height: calc(100% / 8);
+    //margin: 1rem;
   }
 
   .card-top {
@@ -65,7 +85,7 @@
 
   .container {
     background-color: $green;
-    border: solid 1rem $orange;
+    border: solid 0.25rem $orange;
     color: white;
     font-weight: bold;
     font-size: 3rem;
